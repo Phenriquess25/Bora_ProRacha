@@ -246,19 +246,6 @@ pip install -r requirements.txt
 # - tests/test_services.py - 35+ testes
 
 
-# ============================================================================
-# 12. SUPORTE
-# ============================================================================
-
-"""
-Dúvidas? Consulte:
-1. README.md - Documentação detalhada
-2. RESUMO_IMPLEMENTACAO.md - Resumo técnico
-3. main.py - Exemplos de uso
-4. tests/ - Exemplos de testes
-5. Docstrings no código - Documentação inline
-"""
-
 print("""
 ╔════════════════════════════════════════════════════════════════╗
 ║   BORA PRORRACHA - Python Implementation - v1.0               ║
