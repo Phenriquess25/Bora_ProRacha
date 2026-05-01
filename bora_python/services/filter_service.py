@@ -19,7 +19,7 @@ class FilterService(BaseService):
 
     def aplicar_filtro(self, spaces: List[Space], filtro: FiltroEspaco) -> List[Space]:
         """Aplica filtro único aos espaços"""
-        resultado = filtro.aplicar(spaces)
+        resultado = filtro.aplicar(spaces)  # onde o polimorfismo acontece - cada filtro tem sua própria lógica de aplicação
         self.log(f"Filtro aplicado: {filtro.obter_criterio()} → {len(resultado)} espaços encontrados")
         return resultado
 
