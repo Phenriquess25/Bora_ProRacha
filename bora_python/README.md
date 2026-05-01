@@ -242,7 +242,7 @@ Conceitos aplicados:
 * Polimorfismo de comportamento via serviço
 
 
-
+## Herança no projeto
 Herança aparece principalmente em [domain/base.py](domain/base.py), [domain/user.py](domain/user.py), [domain/space.py](domain/space.py), [domain/booking.py](domain/booking.py) e [services/base.py](services/base.py).
 
 Como funciona:
