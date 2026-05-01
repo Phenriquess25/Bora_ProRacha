@@ -179,42 +179,13 @@
 
     .chip {
       background: #e7e7e7;
-      color: #444;
+      color: #666;
       border-radius: 999px;
       padding: 8px 12px;
-      font-size: 0.9rem;
+      font-size: 1rem;
       display: inline-flex;
       align-items: center;
-      {
-        nome: 'Arena Futsal Central',
-        tipo: 'Esporte',
-        modalidade: 'Futsal',
-        inicio: '18:00',
-        fim: '20:00',
-        local: 'Pajuçara, Maceió - AL, Av. Dr. Antônio Gouveia, 150',
-        status: 'Disponível'
-      },
-      {
-        nome: 'Campo do Parque',
-        tipo: 'Esporte',
-        modalidade: 'Futebol',
-        inicio: '19:00',
-        fim: '21:00',
-        local: 'Jatiúca, Maceió - AL, Rua Carlos Jundiaí, 45',
-        status: 'Disponível'
-      },
-      {
-        nome: 'Quadra Olímpica',
-        tipo: 'Esporte',
-        modalidade: 'Basquete',
-        inicio: '18:30',
-        fim: '20:30',
-        local: 'Farol, Maceió - AL, Rua Santa Luzia, 220',
-        status: 'Disponível'
-      }
       margin: 0;
-      color: #666;
-      font-size: 1rem;
     }
 
     .section-title {
@@ -1407,11 +1378,6 @@
                     </div>
                   </div>
                 </div>
-                      <strong>Local</strong>
-                      <span>Vila Nova</span>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -1541,17 +1507,17 @@
               <div class="form-row full">
                 <div class="form-control">
                   <label for="cartaoNumero">Número do Cartão</label>
-                  <input type="text" id="cartaoNumero" placeholder="1234 5678 9012 3456" maxlength="19" />
+                  <input type="text" id="cartaoNumero" placeholder="1234 5678 9012 3456" />
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-control">
                   <label for="cartaoValidade">Validade</label>
-                  <input type="text" id="cartaoValidade" placeholder="MM/AA" maxlength="5" />
+                  <input type="text" id="cartaoValidade" placeholder="MM/AA" />
                 </div>
                 <div class="form-control">
                   <label for="cartaoCVV">CVV</label>
-                  <input type="text" id="cartaoCVV" placeholder="000" maxlength="3" />
+                  <input type="text" id="cartaoCVV" placeholder="000" />
                 </div>
               </div>
             </div>
@@ -1591,88 +1557,32 @@
     const detalheTitulo = document.getElementById('detalheTitulo');
     const detalheDescricao = document.getElementById('detalheDescricao');
 
-    // Estado global de usuário logado
     let usuarioLogado = null;
     let quadraSelecionada = null;
     let reservasUsuario = [];
     let pagamentosUsuario = [];
-    let usuariosRegistrados = []; // Lista de usuários cadastrados
-    let avaliacoes = []; // Lista de avaliações das reservas
+    let usuariosRegistrados = [];
+    let avaliacoes = [];
 
-    const quadras = [
-      {
-        nome: 'Arena Futsal Central',
-        tipo: 'Esporte',
-        modalidade: 'Futsal',
-        inicio: '18:00',
-        fim: '20:00',
-        local: 'Pajuçara, Maceió - AL, Av. Dr. Antônio Gouveia, 150',
-        status: 'Disponível'
-      },
-      {
-        nome: 'Campo do Parque',
-        tipo: 'Esporte',
-        modalidade: 'Futebol',
-        inicio: '19:00',
-        fim: '21:00',
-        local: 'Jatiúca, Maceió - AL, Rua Carlos Jundiaí, 45',
-        status: 'Disponível'
-      },
-      {
-        nome: 'Quadra Olímpica',
-        tipo: 'Esporte',
-        modalidade: 'Basquete',
-        inicio: '18:30',
-        fim: '20:30',
-        local: 'Farol, Maceió - AL, Rua Santa Luzia, 220',
-        status: 'Disponível'
-      },
-      {
-        nome: 'Arena Green Field',
-        tipo: 'Esporte',
-        modalidade: 'Futebol',
-        inicio: '18:00',
-        fim: '20:00',
-        local: 'Bairro Alto',
-        status: 'Indisponível'
-      },
-      {
-        nome: 'Espaço Vôlei+',
-        tipo: 'Esporte',
-        modalidade: 'Vôlei',
-        inicio: '19:00',
-        fim: '21:00',
-        local: 'Pajuçara, Maceió - AL, Av. Dr. Antônio Gouveia, 150',
-        status: 'Disponível'
-      },
-      {
-        nome: 'Mini Arena Society',
-        tipo: 'Esporte',
-        modalidade: 'Society',
-        inicio: '20:00',
-        fim: '22:00',
-        local: 'Jardim América',
-        status: 'Disponível'
-      },
-      {
-        nome: 'Quadra Poliesportiva',
-        tipo: 'Evento',
-        modalidade: 'Basquete',
-        inicio: '18:00',
-        fim: '20:00',
-        local: 'São João',
-        status: 'Indisponível'
-      },
-      {
-        nome: 'Quadra São Lucas',
-        tipo: 'Esporte',
-        modalidade: 'Futsal',
-        inicio: '19:30',
-        fim: '21:30',
-        local: 'São Lucas',
-        status: 'Disponível'
-      }
+    const API_BASE = 'http://127.0.0.1:5000';
+
+    const MOCK_SPACES = [
+      {"nome":"Arena Futsal Central","tipo":"Esporte","modalidade":"Futsal","inicio":"18:00","fim":"20:00","local":"Pajuçara, Maceió - AL, Av. Dr. Antônio Gouveia, 150","status":"Disponível"},
+      {"nome":"Campo do Parque","tipo":"Esporte","modalidade":"Futebol","inicio":"19:00","fim":"21:00","local":"Jatiúca, Maceió - AL, Rua Carlos Jundiaí, 45","status":"Disponível"},
+      {"nome":"Quadra Olímpica","tipo":"Esporte","modalidade":"Basquete","inicio":"18:30","fim":"20:30","local":"Farol, Maceió - AL, Rua Santa Luzia, 220","status":"Disponível"}
     ];
+
+    let quadras = MOCK_SPACES.slice();
+
+    async function loadQuadrasFromApi() {
+      try {
+        const res = await fetch(`${API_BASE}/api/quadras`);
+        if (!res.ok) throw new Error('Falha ao carregar quadras');
+        quadras = await res.json();
+      } catch (err) {
+        console.error(err);
+      }
+    }
 
     const dataInput = document.getElementById('data');
     const horaInicioInput = document.getElementById('horaInicio');
@@ -1685,24 +1595,19 @@
     const resultados = document.getElementById('resultados');
     const cardsGrid = document.getElementById('cardsGrid');
 
-    // ========== LÓGICA DE NEGÓCIO: ALUGUEL E PAGAMENTO ==========
-    
     function iniciarAluguel() {
-      // Validar se usuário está logado
       if (!usuarioLogado) {
         mostrarNotificacao(
           '⚠ Acesso Restrito',
           'Você precisa estar logado para alugar. Faça login e tente novamente.',
           'warning'
         );
-        // Redirecionar para login
         setTimeout(() => {
           irParaLogin();
         }, 1500);
         return;
       }
 
-      // Se está logado, abrir página de pagamento
       abrirPagamento();
     }
 
@@ -1712,18 +1617,15 @@
         return;
       }
 
-      // Preencher informações do pagamento
       const horaInicio = document.getElementById('horaInicio') ? document.getElementById('horaInicio').value : '18:00';
       const horaFim = document.getElementById('horaFim') ? document.getElementById('horaFim').value : '20:00';
       
-      // Calcular preço (exemplo: R$ 120 por hora)
       const horaInicioNum = parseInt(horaInicio.split(':')[0]);
       const horaFimNum = parseInt(horaFim.split(':')[0]);
       const duracao = horaFimNum - horaInicioNum;
       const valorUnitario = 120;
       const totalPagamento = duracao * valorUnitario;
 
-      // Preencher campos da página de pagamento
       document.getElementById('pagamentoLocal').textContent = quadraSelecionada.nome;
       document.getElementById('pagLocal').textContent = quadraSelecionada.nome;
       document.getElementById('pagData').textContent = new Date().toLocaleDateString('pt-BR', { 
@@ -1735,14 +1637,12 @@
       document.getElementById('pagTotal').textContent = `R$ ${totalPagamento.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
       document.getElementById('precoDisplay').textContent = `R$ ${valorUnitario.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-      // Pré-preencher nome do titular com dados do usuário logado
       document.getElementById('nomeTitular').value = usuarioLogado.nome || '';
       document.getElementById('cpfTitular').value = '';
       document.getElementById('cartaoNumero').value = '';
       document.getElementById('cartaoValidade').value = '';
       document.getElementById('cartaoCVV').value = '';
 
-      // Mostrar página de pagamento
       document.getElementById('homePage').classList.add('hidden');
       document.getElementById('detalhePage').classList.add('hidden');
       document.getElementById('loginPage').classList.add('hidden');
@@ -1750,78 +1650,55 @@
       document.getElementById('pagamentoPage').classList.remove('hidden');
     }
 
-    function confirmarPagamento() {
-      // Validar campos
+    async function confirmarPagamento() {
       const nomeTitular = document.getElementById('nomeTitular').value.trim();
-      const cpf = document.getElementById('cpfTitular').value.trim();
-      const cartao = document.getElementById('cartaoNumero').value.trim();
-      const validade = document.getElementById('cartaoValidade').value.trim();
-      const cvv = document.getElementById('cartaoCVV').value.trim();
+      const cartao = document.getElementById('cartaoNumero').value.trim() || '1234 5678 9012 3456';
+      const validade = document.getElementById('cartaoValidade').value.trim() || '12/26';
+      const cvv = document.getElementById('cartaoCVV').value.trim() || '000';
 
-      if (!nomeTitular || !cpf || !cartao || !validade || !cvv) {
-        mostrarNotificacao('⚠ Campos Obrigatórios', 'Preencha todos os dados de pagamento.', 'warning');
+      if (!nomeTitular) {
+        mostrarNotificacao('⚠ Nome obrigatório', 'Digite o nome do titular.', 'warning');
         return;
       }
 
-      // Simular processamento de pagamento
       mostrarNotificacao('💳 Processando...', 'Sua transação está sendo processada...', 'info');
-
-      setTimeout(() => {
-        // Criar reserva
+      try {
         const horaInicio = document.getElementById('horaInicio') ? document.getElementById('horaInicio').value : '18:00';
         const horaFim = document.getElementById('horaFim') ? document.getElementById('horaFim').value : '20:00';
-        
         const horaInicioNum = parseInt(horaInicio.split(':')[0]);
         const horaFimNum = parseInt(horaFim.split(':')[0]);
         const duracao = horaFimNum - horaInicioNum;
         const valorUnitario = 120;
         const totalPagamento = duracao * valorUnitario;
 
-        const novaReserva = {
-          id: Date.now(),
-          local: quadraSelecionada.nome,
-          tipo: quadraSelecionada.tipo,
-          modalidade: quadraSelecionada.modalidade,
-          endereco: quadraSelecionada.local,
-          data: new Date().toLocaleDateString('pt-BR'),
+        const body = {
+          user_id: usuarioLogado?.id || null,
+          local: quadraSelecionada?.nome || 'Local desconhecido',
           horario: `${horaInicio} - ${horaFim}`,
-          duracao: `${duracao} hora${duracao > 1 ? 's' : ''}`,
-          status: 'Confirmada',
           valor: `R$ ${totalPagamento.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`,
-          statusCheckin: 'Pendente'
-        };
-
-        const novoPagamento = {
-          id: Date.now(),
-          reservaId: novaReserva.id,
           metodo: 'Cartão de Crédito',
-          ultimos4: cartao.slice(-4),
-          valor: `R$ ${totalPagamento.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`,
-          data: new Date().toLocaleDateString('pt-BR'),
-          status: 'Aprovado'
+          ultimos4: cartao.slice(-4)
         };
 
-        // Adicionar à lista de reservas do usuário
-        if (!reservasUsuario) reservasUsuario = [];
-        if (!pagamentosUsuario) pagamentosUsuario = [];
-        
+        const res = await fetch(`${API_BASE}/api/reservations`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Erro ao criar reserva');
+
+        const novaReserva = data.reserva;
+        const novoPagamento = data.pagamento;
+
         reservasUsuario.push(novaReserva);
         pagamentosUsuario.push(novoPagamento);
 
-        // Mostrar notificação de sucesso
-        mostrarNotificacao(
-          '✓ Pagamento Confirmado!',
-          `Sua reserva em ${quadraSelecionada.nome} foi concluída com sucesso!`,
-          'success'
-        );
-
-        // Limpar dados de pagamento
+        mostrarNotificacao('✓ Pagamento Confirmado!', `Sua reserva em ${novaReserva.local} foi concluída com sucesso!`, 'success');
         quadraSelecionada = null;
 
-        // Redirecionar para perfil após 2 segundos
         setTimeout(() => {
           irParaPerfil();
-          // Abrir aba de reservas
           document.querySelectorAll('.profile-tab').forEach(tab => tab.classList.remove('active'));
           document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
           const abReservas = document.querySelector('[data-tab="reservas"]');
@@ -1829,8 +1706,11 @@
           const contentReservas = document.getElementById('reservas-content');
           if (contentReservas) contentReservas.classList.add('active');
           carregarReservasUsuario();
-        }, 2000);
-      }, 1500);
+        }, 1000);
+      } catch (err) {
+        console.error(err);
+        mostrarNotificacao('⚠ Erro', 'Falha ao processar pagamento.', 'warning');
+      }
     }
 
     function carregarReservasUsuario() {
@@ -1877,7 +1757,7 @@
                   <span class="checkin-status pending" id="checkin-status-${reserva.id}">Pendente</span>
                 </div>
               </div>
-              <button onclick="fazerCheckin(${reserva.id}, '${reserva.local}')" style="margin-top:10px;width:100%;height:40px;background:#f57c00;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700;">Fazer Check-in</button>
+              <button onclick="fazerCheckin('${reserva.id}', '${reserva.local}')" style="margin-top:10px;width:100%;height:40px;background:#f57c00;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700;">Fazer Check-in</button>
             </div>
             ${temAvaliacao ? `
               <div style="margin-top:12px;padding:12px;background:#e8f5e9;border-radius:8px;border-left:4px solid #2fa53a;">
@@ -1886,15 +1766,43 @@
                 <div style="color:#555;font-size:0.9rem;font-style:italic;">"${avaliacaoReserva.comentario}"</div>
               </div>
             ` : `
-              <button onclick="abrirModalAvaliacao(${reserva.id}, '${reserva.local}')" style="margin-top:12px;width:100%;height:40px;background:#1849a9;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700;">⭐ Avaliar</button>
+              <button onclick="abrirModalAvaliacao('${reserva.id}', '${reserva.local}')" style="margin-top:12px;width:100%;height:40px;background:#1849a9;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700;">⭐ Avaliar</button>
             `}
           </div>
         `;
       });
       html += '</div>';
       container.innerHTML = html;
+      // Anexa os handlers aos botões dentro dos cards (suporta cards estáticos e dinâmicos)
+      attachReservationHandlers();
     }
 
+
+    // Anexa handlers de checkin/cancel/avaliar em cada reserva (fallback para cards estáticos)
+    function attachReservationHandlers() {
+      document.querySelectorAll('.reserva-card').forEach(card => {
+        const reservaId = card.getAttribute('data-reserva-id');
+
+        const btnCheckin = card.querySelector('.btn-checkin');
+        if (btnCheckin && !btnCheckin.dataset._attached) {
+          btnCheckin.addEventListener('click', () => fazerCheckin(reservaId, card.querySelector('.reserva-title')?.textContent || ''));
+          btnCheckin.dataset._attached = '1';
+        }
+
+        const btnCancel = card.querySelector('.btn-cancel');
+        if (btnCancel && !btnCancel.dataset._attached) {
+          btnCancel.addEventListener('click', () => cancelarReserva(reservaId));
+          btnCancel.dataset._attached = '1';
+        }
+
+        // botão de avaliar — pode existir em cards dinâmicos gerados por carregarReservasUsuario
+        const btnAvaliar = card.querySelector('.avaliar-btn');
+        if (btnAvaliar && !btnAvaliar.dataset._attached) {
+          btnAvaliar.addEventListener('click', () => abrirModalAvaliacao(reservaId, card.querySelector('.reserva-title')?.textContent || ''));
+          btnAvaliar.dataset._attached = '1';
+        }
+      });
+    }
     function carregarPagamentosUsuario() {
       const container = document.getElementById('pagamentosList');
       if (!container) return;
@@ -2112,106 +2020,96 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    loginForm.addEventListener('submit', (e) => {
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('email').value;
       const senha = document.getElementById('senha').value;
-      
-      if (email && senha) {
-        // Verificar se o usuário está registrado
-        let usuarioEncontrado = usuariosRegistrados.find(u => u.email === email);
-        
-        if (usuarioEncontrado) {
-          // Usuário registrado encontrado
-          usuarioLogado = usuarioEncontrado;
-        } else {
-          // Usuário não registrado, criar novo com dados padrão
-          usuarioLogado = {
-            nome: 'João Silva',
-            email: email,
-            telefone: '(82) 98765-4321',
-            cidade: 'Maceió',
-            documento: '123.456.789-00'
-          };
-        }
-        
-        // Inicializar reservas e pagamentos do usuário
+
+      if (!email || !senha) {
+        mostrarNotificacao('⚠ Erro', 'Preencha email e senha.', 'warning');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/api/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, senha })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Erro no login');
+
+        usuarioLogado = data;
         reservasUsuario = [];
         pagamentosUsuario = [];
-        
-        document.getElementById('profileUserName').textContent = usuarioLogado.nome;
-        document.getElementById('profileUserEmail').textContent = usuarioLogado.email;
-        
+        document.getElementById('profileUserName').textContent = usuarioLogado.nome || usuarioLogado.email;
+        document.getElementById('profileUserEmail').textContent = usuarioLogado.email || '';
         updateHeaderButton();
-        
-        mostrarNotificacao(
-          '✓ Login Realizado!',
-          `Bem-vindo, ${usuarioLogado.nome}!`,
-          'success'
-        );
-        
+        mostrarNotificacao('✓ Login Realizado!', `Bem-vindo, ${usuarioLogado.nome || usuarioLogado.email}!`, 'success');
         loginForm.reset();
+
+        // carregar reservas do usuário no backend
+        try {
+          const r = await fetch(`${API_BASE}/api/users/${usuarioLogado.id}/reservations`);
+          if (r.ok) {
+            reservasUsuario = await r.json();
+          }
+        } catch (err) {
+          console.error('Erro ao carregar reservas do usuário:', err);
+        }
+
         irParaHome();
-      } else {
-        mostrarNotificacao('⚠ Erro', 'Preencha email e senha.', 'warning');
+      } catch (err) {
+        console.error(err);
+        mostrarNotificacao('⚠ Erro', 'Falha ao conectar com o servidor.', 'warning');
       }
     });
 
     // Formulário de cadastro
-    signupForm.addEventListener('submit', (e) => {
+    signupForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const nome = document.getElementById('signupNome').value.trim();
       const email = document.getElementById('signupEmail').value.trim();
       const telefone = document.getElementById('signupTelefone').value.trim();
       const senha = document.getElementById('signupSenha').value;
       const senhaConfirm = document.getElementById('signupSenhaConfirm').value;
-      
+
       // Validações
-      if (!nome || !email || !telefone || !senha || !senhaConfirm) {
+      if (!nome || !email || !senha || !senhaConfirm) {
         mostrarNotificacao('⚠ Erro', 'Preencha todos os campos.', 'warning');
         return;
       }
-      
+
       if (senha !== senhaConfirm) {
         mostrarNotificacao('⚠ Erro', 'As senhas não conferem.', 'warning');
         return;
       }
-      
+
       if (senha.length < 6) {
         mostrarNotificacao('⚠ Erro', 'A senha deve ter pelo menos 6 caracteres.', 'warning');
         return;
       }
-      
-      // Verificar se email já está registrado
-      if (usuariosRegistrados.find(u => u.email === email)) {
-        mostrarNotificacao('⚠ Erro', 'Este email já está registrado.', 'warning');
-        return;
+
+      try {
+        const res = await fetch(`${API_BASE}/api/signup`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, email, telefone, senha })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Erro no cadastro');
+
+        mostrarNotificacao('✓ Conta Criada!', `Bem-vindo, ${nome}! Agora você pode fazer login.`, 'success');
+        signupForm.reset();
+        setTimeout(() => {
+          signupPage.classList.add('hidden');
+          loginPage.classList.remove('hidden');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 800);
+      } catch (err) {
+        console.error(err);
+        mostrarNotificacao('⚠ Erro', 'Falha ao cadastrar usuário.', 'warning');
       }
-      
-      // Criar novo usuário
-      const novoUsuario = {
-        nome: nome,
-        email: email,
-        telefone: telefone,
-        senha: senha,
-        cidade: '',
-        documento: ''
-      };
-      
-      usuariosRegistrados.push(novoUsuario);
-      
-      mostrarNotificacao(
-        '✓ Conta Criada!',
-        `Bem-vindo, ${nome}! Agora você pode fazer login.`,
-        'success'
-      );
-      
-      signupForm.reset();
-      setTimeout(() => {
-        signupPage.classList.add('hidden');
-        loginPage.classList.remove('hidden');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 1500);
     });
 
     // Abrir login ou perfil do header
@@ -2603,6 +2501,83 @@
           );
         }
       }
+    }
+
+    // Função para fazer check-in (offline)
+    function fazerCheckin(reservaId, local) {
+      const card = document.querySelector(`[data-reserva-id="${reservaId}"]`);
+      if (!card) {
+        mostrarNotificacao('⚠ Erro', 'Reserva não encontrada no cliente.', 'warning');
+        return;
+      }
+
+      // Atualizar visual do check-in
+      const checkinSection = card.querySelector('.checkin-section');
+      if (checkinSection) {
+        checkinSection.style.background = '#e8f5e9';
+        checkinSection.style.borderColor = '#2e7d32';
+
+        const header = checkinSection.querySelector('.checkin-header h4');
+        if (header) {
+          header.textContent = '✓ Check-in Realizado';
+          header.style.color = '#2e7d32';
+        }
+
+        const statusEl = card.querySelector('.reserva-status');
+        if (statusEl) {
+          statusEl.textContent = 'Confirmado';
+          statusEl.className = 'reserva-status status-confirmada';
+        }
+
+        const btnCheckin = card.querySelector('.btn-checkin');
+        if (btnCheckin) {
+          btnCheckin.disabled = true;
+          btnCheckin.textContent = 'Check-in realizado';
+        }
+
+        const btnCancel = card.querySelector('.btn-cancel');
+        if (btnCancel) btnCancel.style.display = 'none';
+
+        // Atualizar lista local de reservas (se existir)
+        const r = reservasUsuario && reservasUsuario.find(x => String(x.id) === String(reservaId));
+        if (r) r.status = 'CHECKIN_REALIZADO';
+
+        mostrarNotificacao('✓ Check-in', `Check-in realizado em ${local}`, 'success');
+      }
+    }
+
+    // Abertura/fechamento do modal de avaliação
+    let __avaliacaoReservaAtual = null;
+    function abrirModalAvaliacao(reservaId, local) {
+      __avaliacaoReservaAtual = reservaId;
+      const modal = document.getElementById('avaliacaoModal');
+      if (!modal) return;
+      modal.style.display = 'flex';
+      const title = modal.querySelector('h2');
+      if (title) title.textContent = `⭐ Avaliar ${local}`;
+      document.getElementById('ratingValue').value = '0';
+      document.getElementById('comentarioText').value = '';
+      document.querySelectorAll('.star').forEach(s => { s.textContent = '☆'; s.style.color = '#ddd'; });
+    }
+
+    function fecharModalAvaliacao() {
+      const modal = document.getElementById('avaliacaoModal');
+      if (!modal) return;
+      modal.style.display = 'none';
+      __avaliacaoReservaAtual = null;
+    }
+
+    function enviarAvaliacao() {
+      const rating = parseInt(document.getElementById('ratingValue').value) || 0;
+      const comentario = document.getElementById('comentarioText').value || '';
+      if (rating <= 0) {
+        mostrarNotificacao('⚠ Avaliação', 'Escolha uma nota entre 1 e 5.', 'warning');
+        return;
+      }
+      avaliacoes.push({ reservaId: __avaliacaoReservaAtual, rating, comentario });
+      fecharModalAvaliacao();
+      mostrarNotificacao('✓ Avaliação enviada', 'Obrigado pela sua avaliação!', 'success');
+      carregarReservasUsuario();
     }
 
     // Verificar e enviar lembretes automaticamente

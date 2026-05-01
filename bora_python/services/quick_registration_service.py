@@ -27,12 +27,10 @@ class QuickRegistrationService(BaseService):
         """
         self.validar_string(email, "Email")
 
-        # Verifica se o usuário já existe
         usuario_id = f"google_{email.split('@')[0]}"
         if usuario_id in self._usuarios:
             return self._usuarios[usuario_id]
 
-        # Cria novo usuário com registro parcial
         usuario = User(
             usuario_id,
             email.split("@")[0].title(),

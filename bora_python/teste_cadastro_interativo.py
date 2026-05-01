@@ -50,7 +50,6 @@ def cadastro_google():
     print(f"  Status: {usuario.status}")
     print(f"  Progresso: {service.obter_progresso_cadastro(usuario)}%")
     
-    # Completar cadastro?
     completar = input("\nDeseja completar o cadastro? (s/n): ").lower()
     if completar == 's':
         telefone = input("Digite o telefone: ").strip()
